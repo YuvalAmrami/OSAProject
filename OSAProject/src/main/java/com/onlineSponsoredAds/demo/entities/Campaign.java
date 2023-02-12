@@ -9,19 +9,23 @@ import static com.onlineSponsoredAds.demo.globalVars.globalVariables.*;
 
 
 @Entity
+@Table( name = "campaigns")
 public class Campaign {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long campaign_id;
 
+    @Column(nullable = false)
     private String name;
 
-    @Column(name="start_date")
+    @Column(name="start_date", nullable = false)
     private Date start_date;
 
     @Transient
     private Date end_date;
+
+    @Column(nullable = false)
     private Float bid;
 
     @ManyToMany
@@ -37,7 +41,7 @@ public class Campaign {
     Campaign(String name, Date start_date, Float bid, List<Product> products){
         this.name = name;
         this.start_date = start_date;
-        this.end_date = new Date(start_date.getTime() + millisecInDay*DaysLengthOfCampaign);
+//        this.end_date = new Date(start_date.getTime() + millisecInDay*DaysLengthOfCampaign);
         this.bid = bid;
         this.products = products;
     }
@@ -67,8 +71,12 @@ public class Campaign {
     }
 
     public Date getEnd_date() {
-        return end_date;
+       return new Date(start_date.getTime() + millisecInDay*DaysLengthOfCampaign);
     }
+
+//    public void setEnd_date() {
+//        this.end_date = new Date(start_date.getTime() + millisecInDay*DaysLengthOfCampaign);
+//    }
 
     public Float getBid() {
         return bid;

@@ -6,22 +6,26 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
+@Table(name = "products")
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="product_serial")
     private String product_serial;
 
+    @Column(nullable = false)
     private String title;
 
     private String category;
 
+    @Column(nullable = false)
     private Float price;
 
-    @ManyToMany(mappedBy = "products")
-    @JsonIgnore
-    private List<Campaign> campaigns;
+//    what campaigns is the product part of, might be good in the fetcher
+//    @ManyToMany(mappedBy = "products")
+//    @JsonIgnore
+//    private List<Campaign> campaigns;
 
 
     public Product(){
@@ -64,5 +68,25 @@ public class Product {
     public void setPrice(Float price) {
         this.price = price;
     }
+
+//    public List<Campaign> getCampaigns() {
+//        return campaigns;
+//    }
+//
+//    public void setCampaigns(List<Campaign> campaigns) {
+//        this.campaigns = campaigns;
+//    }
+
+
+    @Override
+    public String toString() {
+        return "product{" +
+                "product_serial=" + product_serial +
+                ", title='" + title + '\'' +
+                ", category=" + category +
+                ", price='" + price + '\'' +
+                '}';
+    }
+
 
 }
