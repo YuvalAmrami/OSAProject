@@ -1,5 +1,6 @@
 package com.onlineSponsoredAds.demo.controllers;
 
+import com.onlineSponsoredAds.demo.entities.Campaign;
 import com.onlineSponsoredAds.demo.entities.Product;
 import com.onlineSponsoredAds.demo.repositories.ProductRepository;
 import com.onlineSponsoredAds.demo.services.ProductService;
@@ -37,42 +38,20 @@ public class ProductController {
         }
     }
 
+    @PostMapping()
+    public ResponseEntity<Product> addProduct(@RequestBody Product product) {
+        try {
+            return new ResponseEntity<Product>(productService.createProduct(product), HttpStatus.OK);
+        } catch (RuntimeException exception) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product Was Not Created");
+        }
+    }
 
-//
-//    @Autowired
-//    private ProductRepository productRepository;
-//
-//     @GetMapping
-//     public List<Product> list(){
-//          return productRepository.findAll();
-//     }
-//
-//    @GetMapping
-//    @RequestMapping("{id}")
-//    public Product get(@PathVariable String id){
-//        return productRepository.getOne(id);
-//    }
-//
-//    @PostMapping
-//    public Product create(@RequestBody final Product product){
-//        return productRepository.saveAndFlush(product);
-//    }
-//
-//    //    @DeleteMapping
-//    @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
-//    public void delete(@PathVariable String id) {
-//        productRepository.deleteById(id);
-//    }
-//
-//    //    @PutMapping
-//    @RequestMapping(value = "{id}" , method = RequestMethod.PUT)
-//    public Product update(@PathVariable String id, @RequestBody Product product) {
-//        Product existingProduct = productRepository.getOne(id);
-//        BeanUtils.copyProperties(product, existingProduct, "product_serial");
-//        return productRepository.saveAndFlush(existingProduct);
-//    }
-
-
+        //    @DeleteMapping
+    @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable String id) {
+        productService.deleteById(id);
+    }
 
 
 }

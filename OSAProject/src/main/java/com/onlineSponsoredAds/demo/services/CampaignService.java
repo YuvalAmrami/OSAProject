@@ -2,6 +2,7 @@ package com.onlineSponsoredAds.demo.services;
 
 import com.onlineSponsoredAds.demo.entities.Campaign;
 import com.onlineSponsoredAds.demo.entities.CampaignDetailsRequestModel;
+import com.onlineSponsoredAds.demo.entities.Product;
 
 import java.util.List;
 
@@ -13,6 +14,10 @@ public interface CampaignService {
 
     Campaign createCampaign (Campaign campaign);
 
-    Campaign detailsModoleCreateCampaign(CampaignDetailsRequestModel campaignDetailsRequestModel);
+    void deleteById(Long id);
+
+    Campaign createCampaignFromDetailsModole(CampaignDetailsRequestModel campaignDetailsRequestModel);
+
+    Product ServeAd(String category);
 
 }

@@ -11,4 +11,9 @@ public interface ProductService {
 
     Product findProduct(String product_serial);
 
+    Product createProduct (Product product);
+
+    void deleteById(String product_serial);
+
+
 }

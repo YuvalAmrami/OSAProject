@@ -2,10 +2,10 @@ INSERT INTO products (product_serial, title, category, price) VALUES ('A12', 'Pi
 INSERT INTO products (product_serial, title, category, price) VALUES ('B27', 'Pikachu shirt', 'Clothing', 85.0);
 INSERT INTO products (product_serial, title, category, price) VALUES ('B23', 'Spongebob shirt', 'Clothing', 80.0);
 INSERT INTO products (product_serial, title, category, price) VALUES ('A16', 'Spongebob plush', 'Toys', 125.0);
-INSERT INTO campaigns (campaign_id, name, start_date, bid) VALUES (0,'Pikachu campaign','2023-03-01' , 500);
-INSERT INTO campaigns (campaign_id, name, start_date, bid) VALUES (1,'Spongebob campaign', '2023-03-05', 550);
-INSERT INTO campaigns (campaign_id, name, start_date, bid) VALUES (2,'Shirts campaign', '2023-02-26' , 400);
-INSERT INTO campaigns (campaign_id, name, start_date, bid) VALUES (3,'Plush campaign', '2023-02-28' , 300);
+INSERT INTO campaigns (campaign_id, name, start_date, bid) VALUES (0,'Pikachu campaign','2023-02-01' , 500);
+INSERT INTO campaigns (campaign_id, name, start_date, bid) VALUES (1,'Spongebob campaign', '2023-02-15', 550);
+INSERT INTO campaigns (campaign_id, name, start_date, bid) VALUES (2,'Plush campaign', '2023-02-10' , 400);
+INSERT INTO campaigns (campaign_id, name, start_date, bid) VALUES (3,'Shirts campaign', '2023-02-07' , 700);
 INSERT INTO campaign_products (campaign_id, product_serial) VALUES (0,'A12');
 INSERT INTO campaign_products (campaign_id, product_serial) VALUES (0,'B27');
 INSERT INTO campaign_products (campaign_id, product_serial) VALUES (1,'A16');

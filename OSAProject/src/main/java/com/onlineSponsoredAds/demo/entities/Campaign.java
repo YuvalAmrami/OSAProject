@@ -2,8 +2,7 @@ package com.onlineSponsoredAds.demo.entities;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static com.onlineSponsoredAds.demo.globalVars.globalVariables.*;
 
@@ -80,12 +79,15 @@ public class Campaign {
     }
 
     public Date getEnd_date() {
-       return new Date(start_date.getTime() + millisecInDay*DaysLengthOfCampaign);
+       if (end_date ==null){
+           end_date = new Date(start_date.getTime() + millisecInDay*DaysLengthOfCampaign);
+       }
+        return end_date;
     }
 
-//    public void setEnd_date() {
-//        this.end_date = new Date(start_date.getTime() + millisecInDay*DaysLengthOfCampaign);
-//    }
+    public void setEnd_date() {
+        this.end_date = new Date(start_date.getTime() + millisecInDay*DaysLengthOfCampaign);
+    }
 
     public Float getBid() {
         return bid;
@@ -101,6 +103,23 @@ public class Campaign {
 
     public void setProducts(List<Product> products) {
         this.products = products;
+    }
+
+    // possible optimization: adding a categories-set of all Product categories (O(n) Product.size = n)
+    // and sort List<Product> by category (O(n*log(n)))
+    // implement a binary search of category over List<Product> and returning a relevant Product (O(log(n)))
+    // this will be faster only if the sorting and categories set will be cached and will not be running on every call
+    // since current run is O(n) and the new proposal will be O(n)+ O(n*log(n)) +O(log(n)) =O(n*log(n))
+    // but with caching for the average of m runs: current run  O(n) and the new proposal will be O(log(n))
+    public Product getProductWithCategory(String category) {
+        System.out.println("getProductWithCategory");
+        for (int i =0; i<products.size();i++){
+            Product product = products.get(i);
+            if(product.getCategory().equals(category)){
+                return product;
+            }
+        }
+        return null;
     }
 
     @Override

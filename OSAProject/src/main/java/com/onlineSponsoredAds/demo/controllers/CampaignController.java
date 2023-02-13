@@ -42,11 +42,15 @@ public class CampaignController {
     @PostMapping()
     public ResponseEntity<Campaign> addCampaign(@RequestBody Campaign campaign) {
         try {
-            System.out.println("campaign: ");
             return new ResponseEntity<Campaign>(campaignService.createCampaign(campaign), HttpStatus.OK);
         } catch (RuntimeException exception) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Campaign Was Not Created");
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Campaign Was Not Created");
         }
+    }
+
+    @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable Long id) {
+        campaignService.deleteById(id);
     }
 
 

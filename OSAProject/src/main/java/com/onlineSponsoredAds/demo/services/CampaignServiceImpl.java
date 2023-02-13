@@ -1,16 +1,15 @@
 package com.onlineSponsoredAds.demo.services;
 
 import com.onlineSponsoredAds.demo.entities.Campaign;
+import com.onlineSponsoredAds.demo.entities.CampaignComparator;
 import com.onlineSponsoredAds.demo.entities.CampaignDetailsRequestModel;
 import com.onlineSponsoredAds.demo.entities.Product;
 import com.onlineSponsoredAds.demo.repositories.CampaignRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
 
 import static com.onlineSponsoredAds.demo.globalVars.globalVariables.DaysLengthOfCampaign;
 import static com.onlineSponsoredAds.demo.globalVars.globalVariables.millisecInDay;
@@ -43,24 +42,28 @@ public class CampaignServiceImpl implements CampaignService{
 
     @Override
     public Campaign createCampaign (Campaign campaign){
-//        System.out.println("campaign: ");
-        System.out.println(campaign);
         try {
             return campaignRepository.save(campaign);
         } catch ( RuntimeException e){
             throw e;
         }
     }
+    @Override
+    public void deleteById(Long id){
+        try {
+            campaignRepository.deleteById(id);
+        } catch ( RuntimeException e){
+            throw e;
+        }
+    }
+
 
     @Override
-    public Campaign detailsModoleCreateCampaign(CampaignDetailsRequestModel campaignDetailsRequestModel){
-        System.out.println("CampaignDetailsRequestModel: ");
-        System.out.println(campaignDetailsRequestModel);
+    public Campaign createCampaignFromDetailsModole(CampaignDetailsRequestModel campaignDetailsRequestModel){
         List<Product> Products = new ArrayList<Product>();
         String[] ProductsNames = campaignDetailsRequestModel.getProducts();
         for (int i = 0; i <ProductsNames.length; i++){
             Product product = productService.findProduct(ProductsNames[i]);
-            System.out.println("product: "+product.toString());
             Products.add(product);
         }
         Campaign campaign = new Campaign(campaignDetailsRequestModel.getName(),campaignDetailsRequestModel.getStart_date(),
@@ -72,38 +75,35 @@ public class CampaignServiceImpl implements CampaignService{
         }
     }
 
-
-
-//
-//    @GetMapping
-//    public List<Campaign> list(){
-//        return campaignRepository.findAll();
-//    }
-//
-//    @GetMapping
-//    @RequestMapping("{id}")
-//    public Campaign get(@PathVariable Long id){
-//        return campaignRepository.getOne(id);
-//    }
-//
-//    @PostMapping //the spring system is automatically composing the body to a Campaign
-//    public
-//
-//    //    @DeleteMapping
-//    @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
-//    public void delete(@PathVariable Long id) {
-//        campaignRepository.deleteById(id);
-//    }
-//
-//    //    @PutMapping
-//    @RequestMapping(value = "{id}" , method = RequestMethod.PUT)
-//    public Campaign update(@PathVariable Long id, @RequestBody Campaign Campaign){
-//        Campaign existingCampaign = campaignRepository.getOne(id);
-//        BeanUtils.copyProperties(Campaign,existingCampaign,"campaign_id");
-//        return campaignRepository.saveAndFlush(existingCampaign);
-//    }
-//
-
+    public Product ServeAd(String category){
+        Date Now = new Date();
+        try {
+            List<Campaign> categoryCampaign = listCampaigns();
+            //possible optimization in the future - cashing the sorted values.
+            Collections.sort(categoryCampaign, new CampaignComparator().reversed());
+            Campaign highstBidActive = null;
+            for (int i =0;i<categoryCampaign.size() ;i++){
+                Campaign campaign = categoryCampaign.get(i);
+                if (campaign.getStart_date().before(Now) && campaign.getEnd_date().after(Now)){
+                    if (highstBidActive==null){
+                        highstBidActive = campaign;
+                    }
+                    Product product = campaign.getProductWithCategory(category);
+                    if (product!=null) {
+                        return product;
+                    }
+                }
+            }
+            if (highstBidActive==null){ //when no campaign is active returns the highest paying campaign
+                return categoryCampaign.get(0).getProducts().get(0);
+            } else { // when there are no products in the category.
+                return highstBidActive.getProducts().get(0);
+            }
+        }
+        catch( RuntimeException e) {
+            throw e;
+        }
+    }
 
 }
 

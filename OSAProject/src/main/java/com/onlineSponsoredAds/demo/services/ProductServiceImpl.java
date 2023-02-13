@@ -30,4 +30,23 @@ public class ProductServiceImpl implements ProductService{
             throw new RuntimeException("Product Not Found");
     }
 
+    @Override
+    public Product createProduct (Product product){
+        try {
+            return productRepository.save(product);
+        } catch ( RuntimeException e){
+            throw e;
+        }
+    }
+
+    @Override
+    public void deleteById(String product_serial){
+        try {
+            productRepository.deleteById(product_serial);
+        } catch ( RuntimeException e){
+            throw e;
+        }
+    }
+
+
 }
