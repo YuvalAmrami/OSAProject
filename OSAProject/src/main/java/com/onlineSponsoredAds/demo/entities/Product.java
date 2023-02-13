@@ -10,7 +10,6 @@ import java.util.List;
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="product_serial")
     private String product_serial;
 

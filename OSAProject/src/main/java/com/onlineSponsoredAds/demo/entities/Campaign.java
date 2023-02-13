@@ -13,7 +13,6 @@ import static com.onlineSponsoredAds.demo.globalVars.globalVariables.*;
 public class Campaign {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long campaign_id;
 
     @Column(nullable = false)
@@ -36,12 +35,22 @@ public class Campaign {
     )
     private List<Product> products;
 
-    Campaign(){
+    public Campaign(){
+            this.campaign_id = (long) (Math.random()*100000);
     }
-    Campaign(String name, Date start_date, Float bid, List<Product> products){
+    public Campaign(Campaign campaign){
+        this.campaign_id = (long) (Math.random()*100000);
+        this.name = campaign.name;
+        this.start_date = campaign.start_date;
+        this.end_date = new Date(start_date.getTime() + millisecInDay*DaysLengthOfCampaign);
+        this.bid = campaign.bid;
+        this.products = campaign.products;
+    }
+    public Campaign(String name, Date start_date, Float bid, List<Product> products){
+        this.campaign_id = (long) (Math.random()*100000);
         this.name = name;
         this.start_date = start_date;
-//        this.end_date = new Date(start_date.getTime() + millisecInDay*DaysLengthOfCampaign);
+        this.end_date = new Date(start_date.getTime() + millisecInDay*DaysLengthOfCampaign);
         this.bid = bid;
         this.products = products;
     }
@@ -93,4 +102,16 @@ public class Campaign {
     public void setProducts(List<Product> products) {
         this.products = products;
     }
+
+    @Override
+    public String toString() {
+        return "Campaign{" +
+                "campaign_id " + campaign_id + '\'' +
+                "name=" + name +
+                ", start_date='" + start_date + '\'' +
+                ", bid=" + bid +
+                ", products='" + products + '\'' +
+                '}';
+    }
+
 }

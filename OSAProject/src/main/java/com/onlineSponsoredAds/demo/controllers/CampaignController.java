@@ -20,6 +20,7 @@ public class CampaignController {
 
     private CampaignService campaignService;
 
+
     @Autowired
     public void setCampaignService(CampaignService campaignService) { this.campaignService = campaignService; }
 
@@ -34,46 +35,19 @@ public class CampaignController {
         try {
             return new ResponseEntity<Campaign>(campaignService.findCampaign(id), HttpStatus.OK);
         } catch (RuntimeException exception) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Application Not Found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Campaign Was Not Found");
+        }
+    }
+
+    @PostMapping()
+    public ResponseEntity<Campaign> addCampaign(@RequestBody Campaign campaign) {
+        try {
+            System.out.println("campaign: ");
+            return new ResponseEntity<Campaign>(campaignService.createCampaign(campaign), HttpStatus.OK);
+        } catch (RuntimeException exception) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Campaign Was Not Created");
         }
     }
 
 
-
-//    @Autowired
-//    private CampaignRepository campaignRepository;
-//
-//
-//    @GetMapping
-//    public List<Campaign> list(){
-//        return campaignRepository.findAll();
-//    }
-//
-//    @GetMapping
-//    @RequestMapping("{id}")
-//    public Campaign get(@PathVariable Long id){
-//        return campaignRepository.getOne(id);
-//    }
-//
-//    @PostMapping //the spring system is automatically composing the body to a Campaign
-//    public Campaign create(@RequestBody final Campaign Campaign){
-//        return campaignRepository.saveAndFlush(Campaign);
-//    }
-//
-//    //    @DeleteMapping
-//    @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
-//    public void delete(@PathVariable Long id) {
-//        campaignRepository.deleteById(id);
-//    }
-//
-//    //    @PutMapping
-//    @RequestMapping(value = "{id}" , method = RequestMethod.PUT)
-//    public Campaign update(@PathVariable Long id, @RequestBody Campaign Campaign){
-//        Campaign existingCampaign = campaignRepository.getOne(id);
-//        BeanUtils.copyProperties(Campaign,existingCampaign,"campaign_id");
-//        return campaignRepository.saveAndFlush(existingCampaign);
-//    }
-//
-    
-    
 }

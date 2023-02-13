@@ -53,8 +53,6 @@ public class ProductController {
 //        return productRepository.getOne(id);
 //    }
 //
-//
-//
 //    @PostMapping
 //    public Product create(@RequestBody final Product product){
 //        return productRepository.saveAndFlush(product);
