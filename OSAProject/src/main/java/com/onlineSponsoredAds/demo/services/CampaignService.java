@@ -16,8 +16,8 @@ public interface CampaignService {
 
     void deleteById(Long id);
 
-    Campaign createCampaignFromDetailsModole(CampaignDetailsRequestModel campaignDetailsRequestModel);
+    Campaign createCampaignFromDetailsModel(CampaignDetailsRequestModel campaignDetailsRequestModel);
 
-    Product ServeAd(String category);
+    Product serveAd(String category);
 
 }

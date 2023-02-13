@@ -8,7 +8,7 @@ import java.util.List;
 
 //// the Entity that fits to the input specification
 @Entity
-public class CampaignDetailsRequestModel{
+public class CampaignDetailsRequestModel {
 
     @Id
 //    @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,9 +21,17 @@ public class CampaignDetailsRequestModel{
 
     private String[] products;
 
-    public CampaignDetailsRequestModel(){
-        this.CampaignDetailsRequestModel_id = (long) (Math.random()*100000);
-    };
+    public CampaignDetailsRequestModel() {
+        this.CampaignDetailsRequestModel_id = (long) (Math.random() * 100000);
+    }
+
+
+    public CampaignDetailsRequestModel(String name, Date start_date, Float bid, String[] products) {
+        this.name = name;
+        this.start_date = start_date;
+        this.bid = bid;
+        this.products = products;
+    }
 
     public String getName() {
         return name;

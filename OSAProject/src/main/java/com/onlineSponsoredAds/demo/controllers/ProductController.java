@@ -2,6 +2,7 @@ package com.onlineSponsoredAds.demo.controllers;
 
 import com.onlineSponsoredAds.demo.entities.Campaign;
 import com.onlineSponsoredAds.demo.entities.Product;
+import com.onlineSponsoredAds.demo.globalVars.ProductNotFoundException;
 import com.onlineSponsoredAds.demo.repositories.ProductRepository;
 import com.onlineSponsoredAds.demo.services.ProductService;
 import com.onlineSponsoredAds.demo.services.ProductServiceImpl;
@@ -33,18 +34,14 @@ public class ProductController {
     public ResponseEntity<Product> getProduct(@PathVariable("id") String id) {
         try {
             return new ResponseEntity<Product>(productService.findProduct(id), HttpStatus.OK);
-        } catch (RuntimeException exception) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Application Not Found");
+        } catch (ProductNotFoundException exception) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, exception.getMessage());
         }
     }
 
     @PostMapping()
     public ResponseEntity<Product> addProduct(@RequestBody Product product) {
-        try {
-            return new ResponseEntity<Product>(productService.createProduct(product), HttpStatus.OK);
-        } catch (RuntimeException exception) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product Was Not Created");
-        }
+        return new ResponseEntity<Product>(productService.createProduct(product), HttpStatus.CREATED);
     }
 
         //    @DeleteMapping

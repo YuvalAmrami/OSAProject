@@ -21,16 +21,16 @@ public class Product {
     @Column(nullable = false)
     private Float price;
 
-//    what campaigns is the product part of, might be good in the fetcher
-//    @ManyToMany(mappedBy = "products")
-//    @JsonIgnore
-//    private List<Campaign> campaigns;
-
-
     public Product(){
     }
 
     public Product(String title, String category, Float price){
+        this.title = title;
+        this.category = category;
+        this.price = price;
+    }
+    public Product(String product_serial,String title, String category, Float price){
+        this.product_serial = product_serial;
         this.title = title;
         this.category = category;
         this.price = price;
@@ -67,14 +67,6 @@ public class Product {
     public void setPrice(Float price) {
         this.price = price;
     }
-
-//    public List<Campaign> getCampaigns() {
-//        return campaigns;
-//    }
-//
-//    public void setCampaigns(List<Campaign> campaigns) {
-//        this.campaigns = campaigns;
-//    }
 
 
     @Override

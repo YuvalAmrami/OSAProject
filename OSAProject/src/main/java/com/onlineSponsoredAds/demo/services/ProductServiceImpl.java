@@ -1,6 +1,7 @@
 package com.onlineSponsoredAds.demo.services;
 
 import com.onlineSponsoredAds.demo.entities.Product;
+import com.onlineSponsoredAds.demo.globalVars.ProductNotFoundException;
 import com.onlineSponsoredAds.demo.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,28 +25,21 @@ public class ProductServiceImpl implements ProductService{
     public Product findProduct(String product_serial) {
         Optional<Product> optionalProduct = productRepository.findById(product_serial);
 
-        if(optionalProduct.isPresent())
+        if (optionalProduct.isPresent()) {
             return optionalProduct.get();
-        else
-            throw new RuntimeException("Product Not Found");
+        } else {
+            throw new ProductNotFoundException("Product "+product_serial+ " Not Found");
+        }
     }
 
     @Override
     public Product createProduct (Product product){
-        try {
-            return productRepository.save(product);
-        } catch ( RuntimeException e){
-            throw e;
-        }
+        return productRepository.save(product);
     }
 
     @Override
     public void deleteById(String product_serial){
-        try {
             productRepository.deleteById(product_serial);
-        } catch ( RuntimeException e){
-            throw e;
-        }
     }
 
 

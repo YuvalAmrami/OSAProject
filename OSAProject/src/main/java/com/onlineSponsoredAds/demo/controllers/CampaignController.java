@@ -2,6 +2,7 @@ package com.onlineSponsoredAds.demo.controllers;
 
 import com.onlineSponsoredAds.demo.entities.Campaign;
 import com.onlineSponsoredAds.demo.entities.Product;
+import com.onlineSponsoredAds.demo.globalVars.CampaignNotFoundException;
 import com.onlineSponsoredAds.demo.repositories.CampaignRepository;
 import com.onlineSponsoredAds.demo.services.CampaignService;
 import com.onlineSponsoredAds.demo.services.ProductService;
@@ -34,18 +35,14 @@ public class CampaignController {
     public ResponseEntity<Campaign> getCampaign(@PathVariable("id") Long id) {
         try {
             return new ResponseEntity<Campaign>(campaignService.findCampaign(id), HttpStatus.OK);
-        } catch (RuntimeException exception) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Campaign Was Not Found");
+        } catch (CampaignNotFoundException exception) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, exception.getMessage());
         }
     }
 
     @PostMapping()
     public ResponseEntity<Campaign> addCampaign(@RequestBody Campaign campaign) {
-        try {
-            return new ResponseEntity<Campaign>(campaignService.createCampaign(campaign), HttpStatus.OK);
-        } catch (RuntimeException exception) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Campaign Was Not Created");
-        }
+        return new ResponseEntity<Campaign>(campaignService.createCampaign(campaign), HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
